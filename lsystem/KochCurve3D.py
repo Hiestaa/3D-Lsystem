@@ -44,10 +44,9 @@ class KochCurve3D(LSystem):
 		}
 	def createRules(self):
 		self.LSRules = {
-			'A':	"[[[F+F-F-F+F]G<G>G>G<G]H-H+H+H-H]I>I<I<I>I]",
+			'A':	"[[[[F+F-F-F+F]G<G>G>G<G]H-H+H+H-H]I>I<I<I>I]",
 			'F':	"F+F-F-F+F",
 			'G':	"G<G>G>G<G",
 			'H':	"H-H+H+H-H",
 			'I':	"I>I<I<I>I",
 		}
-			
