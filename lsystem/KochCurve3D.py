@@ -7,7 +7,7 @@ class KochCurve3D(LSystem):
 	def defineParams(self):
 		self.LSName = "Koch curve 3D"
 		self.LSAngle = math.pi / 2
-		self.LSSegment = 1
+		self.LSSegment = 0.01
 		self.LSSteps = 4
 		self.LSSartingString = "A"
 
