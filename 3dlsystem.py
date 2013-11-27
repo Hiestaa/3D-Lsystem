@@ -62,6 +62,9 @@ class Main:
 			if arg == 'help':
 				print Conf.HELP
 				exit()
+			if arg == 'debug':
+				print "Debug mode activated."
+				Conf.DEBUG['lsystem'] = 1
 			if arg in ARGUMENTS:
 				lsys = ARGUMENTS[arg](self.turtle)
 			try:
