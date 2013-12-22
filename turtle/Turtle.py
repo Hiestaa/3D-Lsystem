@@ -183,12 +183,14 @@ class Turtle:
 	""" Draw the turtle path """
 	def draw(self):
 		if self.vertexBufferChanged or self.vertexPositions is None:
-			#print "Vertex buffer changed !"
+			print "Vertex buffer changed !"
 			#print "Creating numpy array..."
 			vertices = np.array(self.vertexBuffer, \
 		 					dtype=np.float32)
+			print vertices
 			#print "Creating VBO..."
 			self.vertexPositions = vbo.VBO(vertices)
+			print "VBO: ", self.vertexPositions.data
 			#print "Total number of vertex #: ", self.vertexBufferLength
 			self.vertexBufferChanged = False
 
