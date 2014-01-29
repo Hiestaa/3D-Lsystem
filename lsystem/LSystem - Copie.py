@@ -15,10 +15,10 @@ class LSystem:
 		self.LSAngle = math.pi / 2	# angle (pour les rotations)
 		self.LSSegment = 1.0		# taille d'un segment
 		self.LSSteps = 5			# nombre de passe de generation (= precision de la fractale)
-		self.LSSartingString = "F"	# axiome initial
+		self.LSStartingString = "F"	# axiome initial
 		self.LSCode = ""			# code genere
 		self.LSStochastic = False	# determine si le dessin doit etre aleatoire
-		self.LSStochRange = 0.01	# determine le facteur aleatoire 
+		self.LSStochRange = 0.01	# determine le facteur aleatoire
 		self.defineParams()
 		self.createVars()
 		self.createRules()
@@ -31,17 +31,17 @@ class LSystem:
 
 	def createVars(self):
 		raise NotImplementedError("The method `createVars' of the LSystem `" + self.LSName + "' has not been implemented yet")
-		
+
 	def createRules(self):
 		raise NotImplementedError("The method `createRules' of the LSystem `" + self.LSName + "' has not been implemented yet")
-		
+
 	def getCode(self):
 		return self.LSCode
 
 	def generate(self):
 		print "============= Starting generation "
 		print "============= LSName: ", self.LSName
-		self.LSCode = self.LSSartingString
+		self.LSCode = self.LSStartingString
 		self.generate_rec(self.LSSteps)
 		if self.LSStochastic:
 			self.turtle.setStochasticFactor(self.LSStochRange)
@@ -86,7 +86,7 @@ class LSystem:
 		self.LSCode = newcode
 
 		print "============= Generation [" + str(self.LSSteps - iterations) + "], size=" + str(len(newcode)) + ": "
-		if 'lsystem' in Conf.DEBUG:
+		if 'lsystem' in Conf.DEBUG and Conf.DEBUG['lsystem'] >= 1:
 			print newcode
 
 		self.generate_rec(iterations - 1)

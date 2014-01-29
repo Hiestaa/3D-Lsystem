@@ -1,18 +1,22 @@
 from lsystem.LSystem import LSystem
 import math
+import OpenGL.GL as gl
 
 class Tree2(LSystem):
-	"""Fractale en forme d'arbre, v1"""
+	"""Fractale en forme d'arbre, v2"""
+	def __init__(self, turtle):
+		super(Tree2, self).__init__(turtle)
 
 	def defineParams(self):
 		self.LSName = "Tree 2"
-		self.LSAngle = math.pi / 8
+		self.LSAngle = math.pi / 16
 		self.LSSegment = 1
 		self.LSSteps = 4
-		self.LSSartingString = "F"
-		self.LSStochastic = False
+		self.LSStartingString = "F"
+		self.LSStochastic = True
 
-		self.LSStochRange = 0.1
+		self.LSStochRange = 1
+		self.LSDrawType = gl.GL_LINE_STRIP
 
 	def createVars(self):
 		self.LSVars = {

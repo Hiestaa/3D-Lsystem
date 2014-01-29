@@ -9,7 +9,7 @@ class FirstTree(LSystem):
 		self.LSAngle = math.pi / 8
 		self.LSSegment = 1
 		self.LSSteps = 4
-		self.LSSartingString = "F"
+		self.LSStartingString = "F"
 
 	def createVars(self):
 		self.LSVars = {
@@ -42,4 +42,3 @@ class FirstTree(LSystem):
 		self.LSRules = {
 			'F':	"F[-&<F][<++&F]||F[--&>F][+&F]"
 		}
-			

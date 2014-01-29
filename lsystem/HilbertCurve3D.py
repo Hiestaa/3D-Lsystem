@@ -9,7 +9,7 @@ class HilbertCurve3D(LSystem):
 		self.LSAngle = math.pi / 2
 		self.LSSegment = 1.0
 		self.LSSteps = 2
-		self.LSSartingString = "X"
+		self.LSStartingString = "X"
 
 	def createVars(self):
 		self.LSVars = {
@@ -36,4 +36,3 @@ class HilbertCurve3D(LSystem):
 		self.LSRules = {
 			'X':	"^<XF^<XFX-F^>>XFX&F+>>XFX-F>X->"
 		}
-			

@@ -9,7 +9,7 @@ class Sierp(LSystem):
 		self.LSAngle = math.pi / 3
 		self.LSSegment = 1
 		self.LSSteps = 2
-		self.LSSartingString = "F"
+		self.LSStartingString = "F"
 
 	def createVars(self):
 		self.LSVars = {
@@ -33,4 +33,3 @@ class Sierp(LSystem):
 			'F':	"F+F-X-F+F",
 			'X':	""#"[[<F>F]&&[<F>F]]"
 		}
-			

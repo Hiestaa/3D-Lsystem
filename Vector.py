@@ -16,6 +16,9 @@ class Vector:
 			self.z = val[2]
 		return self;
 
+	def toString(self):
+		return "(" + str(self.x) + ", " + str(self.y) + ", " + str(self.z) + ")"
+
 	def __mul__(self, other):
 		if isinstance(other, self.__class__):
 			return Vector((self.x * other.x, self.y * other.y, self.z * other.z))
@@ -35,7 +38,7 @@ class Vector:
 			self.z *= other.z
 		else:
 			self.x *= other
-			self.y *= other 
+			self.y *= other
 			self.z *= other
 		return self
 
@@ -58,7 +61,7 @@ class Vector:
 			self.z += other.z
 		else:
 			self.x += other
-			self.y += other 
+			self.y += other
 			self.z += other
 		return self
 

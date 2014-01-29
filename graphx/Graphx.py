@@ -12,6 +12,7 @@ from OpenGL.GLUT import *
 
 from Camera import Camera
 from Conf import Conf
+from IHM import IHM
 
 import numpy as np
 
@@ -22,11 +23,11 @@ class Graphx:
 		#glutInit(sys.argv)
 		self.width, self.height = 1280, 800
 		pygame.init()
-		pygame.display.set_mode((self.width, self.height), OPENGL | DOUBLEBUF)
+		self.screen = pygame.display.set_mode((self.width, self.height), OPENGL | DOUBLEBUF)
 
 		glMatrixMode(GL_PROJECTION)
 		glLoadIdentity()
-		gluPerspective(65.0, self.width/float(self.height), 0.1, 1000.0)
+		gluPerspective(65.0, self.width/float(self.height), 0.01, 1000.0)
 		glMatrixMode(GL_MODELVIEW)
 		glEnable(GL_DEPTH_TEST)
 		self.camera = Camera((0.0, 100, 0), (0.0, 0, 0))
@@ -41,25 +42,18 @@ class Graphx:
 		#Create the index buffer object
 		indices = np.array([[0,1,2], [0, 3, 2]], dtype=np.int32)
 		self.indexPositions = vbo.VBO(indices, target=GL_ELEMENT_ARRAY_BUFFER)
+		self.uniform_values = {}
+		self.uniform_locations = {}
 
-	  	#Now create the shaders
-		self.VERTEX_SHADER = shaders.compileShader("""
-		varying vec4 vertex_color;
-		void main() {
-			gl_Position = gl_ModelViewProjectionMatrix * gl_Vertex;
-			vertex_color = gl_Color;
-		}
-	    """, GL_VERTEX_SHADER)
+		# ihm management
+		#self.ihm = IHM(self.width, self.height, self.screen)
 
-		self.FRAGMENT_SHADER = shaders.compileShader("""
-		varying vec4 vertex_color;
-		void main() {
-		    gl_FragColor = vertex_color;
-		}
-	    """, GL_FRAGMENT_SHADER)
-
-		self.shader = shaders.compileProgram(self.VERTEX_SHADER, self.FRAGMENT_SHADER)
-
+	def setShader(self, shader, unif):
+		glUseProgram(shader)
+		self.shader = shader
+		self.uniform_values = unif;
+		for name in unif:
+			self.uniform_locations[name] = glGetUniformLocation(self.shader, name)
 
 	def draw_base(self):
 
@@ -82,22 +76,22 @@ class Graphx:
 
 		# display axes
 		glBegin(GL_LINES)
-		glColor3f(0, 1, 0)
-		glVertex3f(0, 0, 0)
-		glVertex3f(1, 0, 0);
-		glColor3f(0, 0, 1)
-		glVertex3f(0, 0, 0)
-		glVertex3f(0, 1, 0);
 		glColor3f(1, 0, 0)
 		glVertex3f(0, 0, 0)
-		glVertex3f(0, 0, 1);
+		glVertex3f(1, 0, 0)
+		glColor3f(0, 1, 0)
+		glVertex3f(0, 0, 0)
+		glVertex3f(0, 1, 0)
+		glColor3f(0, 0, 1)
+		glVertex3f(0, 0, 0)
+		glVertex3f(0, 0, 1)
 		glEnd()
 
 
-	def clear(self):
+	def clear(self, shader=None):
 		#glClearColor(1,1,1,1)
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
-		glUseProgram(self.shader)
+
 
 	#display the base, update the camera and flip the display
 	def update(self, lookat=(0, 0, 0)):
@@ -106,7 +100,13 @@ class Graphx:
 		glLoadIdentity( );
 		self.camera.look(lookat);
 
+		for name in self.uniform_values:
+			#print "setting ", name, ":", self.uniform_locations[name], "=", self.uniform_values[name]()
+			glUniform1f(self.uniform_locations[name], self.uniform_values[name]())
+
 		self.draw_base()
+
+		#self.ihm.draw()
 
 		pygame.display.flip()
 

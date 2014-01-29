@@ -1,15 +1,15 @@
 from lsystem.LSystem import LSystem
 import math
 
-class Tree2(LSystem):
-	"""Fractale en forme d'arbre, v1"""
+class Tree2D(LSystem):
+	"""Fractale en forme d'arbre en 2D"""
 
 	def defineParams(self):
 		self.LSName = "Tree 3"
 		self.LSAngle = math.pi / 4
-		self.LSSegment = 1
-		self.LSSteps = 3
-		self.LSSartingString = "F"
+		self.LSSegment = 0.01
+		self.LSSteps = 8
+		self.LSStartingString = "F"
 		self.LSStochastic = False
 		self.LSStochRange = 0.1
 
@@ -44,4 +44,3 @@ class Tree2(LSystem):
 		self.LSRules = {
 			'F':	"FF[-F][+F]"
 		}
-			

@@ -4,10 +4,12 @@ from OpenGL.GLUT import *
 from OpenGL.arrays import vbo
 import pdb
 import math
+import colorsys
 
 from Conf import Conf
 import random
 import numpy as np
+import time
 
 class Turtle:
 	"""This class is the turtle that will draw the fractals"""
@@ -19,20 +21,30 @@ class Turtle:
 			self.heading = Vector().set(heading)
 			self.color = Vector().set(color)
 
-	def __init__(self):
-		self.pos = Vector(Conf.TURTLE.INIT_POS)
+	def __init__(self, pos=None):
+		if pos is None:
+			self.pos = Vector(Conf.TURTLE.INIT_POS)
+		else:
+			self.pos = Vector(pos)
 		self.heading = Vector(Conf.TURTLE.INIT_HEADING)
-		self.color = Vector(Conf.TURTLE.INIT_COLOR)
+		self.color = Vector(colorsys.rgb_to_hls(Conf.TURTLE.INIT_COLOR[0], Conf.TURTLE.INIT_COLOR[1], Conf.TURTLE.INIT_COLOR[2]))
 
 		self.stateStack = [] # allow to manage a stack of states
 		self.stochasticFactor = 0 # used to randomize drawing
 
-		# the vertex buffer is a liste of lists : [[x y z r g b breakline],...]
+		# the vertex buffer is a liste of lists : [[x y z r g b time],...]
 		self.vertexBuffer = []
 		self.vertexBufferLength = 0
 		self.vertexBufferChanged = False
 		self.vertexPositions = None
 		#indices = np.array([[0,1,2], [0, 3, 2]], dtype=np.int32)
+		self.draw_type = GL_TRIANGLES
+
+		self.point()
+
+	""" allow to change the way the turtle is drawing the fractal """
+	def setDrawType(self, type):
+		self.draw_type = type
 
 	""" Set the stochastic factor of this instance of the turtle """
 	def setStochasticFactor(self, factor):
@@ -48,7 +60,7 @@ class Turtle:
 	def reinit(self):
 		self.pos = Vector(Conf.TURTLE.INIT_POS)
 		self.heading = Vector(Conf.TURTLE.INIT_HEADING)
-		self.color = Vector(Conf.TURTLE.INIT_COLOR)
+		self.color = Vector(colorsys.rgb_to_hls(Conf.TURTLE.INIT_COLOR[0], Conf.TURTLE.INIT_COLOR[1], Conf.TURTLE.INIT_COLOR[2]))
 		self.vertexBuffer = []
 		self.vertexBufferChanged = False
 		self.vertexBufferLength = 0
@@ -58,8 +70,9 @@ class Turtle:
 
 	""" Draw a point at the current position of the turtle """
 	def point(self, breakline = 0):
+		c = colorsys.hls_to_rgb(self.color.x, self.color.y, self.color.z)
 		self.vertexBuffer.append([float(self.pos.x), float(self.pos.y), float(self.pos.z),
-							self.color.x, self.color.y, self.color.z, breakline])
+							c[0], c[1], c[2], breakline])
 		self.vertexBufferChanged = True
 		self.vertexBufferLength += 1
 
@@ -169,9 +182,18 @@ class Turtle:
 	def setColor(self, color):
 		if 'turtle' in Conf.DEBUG:
 			print "Called: setColor(", color, ");"
-		color = self.randomize(color)
-		self.color.set(color)
+		#color = self.randomize(color)
+		self.color.set(colorsys.rgb_to_hls(color[0], color[1], color[2]))
 
+	def nextColor(self, step):
+		if 'turtle' in Conf.DEBUG:
+			print "Called: nextColor(", step, ");"
+			print "Previous: ", self.color.toString()
+		self.color.x += step
+		if self.color.x > 1.0:
+			self.color.x = self.color.x - 1.0
+		if 'turtle' in Conf.DEBUG:
+			print "Next: ", self.color.toString()
 	""" Close a commend sequence """
 	def end(self):
 		glBegin(GL_LINES)
@@ -183,15 +205,15 @@ class Turtle:
 	""" Draw the turtle path """
 	def draw(self):
 		if self.vertexBufferChanged or self.vertexPositions is None:
-			print "Vertex buffer changed !"
+			#print "Vertex buffer changed !"
 			#print "Creating numpy array..."
 			vertices = np.array(self.vertexBuffer, \
 		 					dtype=np.float32)
-			print vertices
+			#print vertices
 			#print "Creating VBO..."
 			self.vertexPositions = vbo.VBO(vertices)
-			print "VBO: ", self.vertexPositions.data
-			#print "Total number of vertex #: ", self.vertexBufferLength
+			#print "VBO: ", self.vertexPositions.data
+			print "Total number of vertex: ", self.vertexBufferLength
 			self.vertexBufferChanged = False
 
 
@@ -203,12 +225,12 @@ class Turtle:
 
 		glVertexPointer(3, GL_FLOAT, 28, self.vertexPositions )
 		glColorPointer(3, GL_FLOAT, 28, self.vertexPositions+12 )
+		#glVertexAttribPointer(7, 1, GL_FLOAT, GL_TRUE, 28, self.vertexPositions+24)
 
-		glDrawArrays(GL_LINE_STRIP, 0, self.vertexBufferLength);
+		glDrawArrays(self.draw_type, 0, self.vertexBufferLength);
 		#glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, None)
 
 		#self.indexPositions.unbind()
 		self.vertexPositions.unbind()
 		glDisableClientState(GL_VERTEX_ARRAY)
 		glDisableClientState(GL_COLOR_ARRAY)
-

@@ -2,17 +2,21 @@ from lsystem.LSystem import LSystem
 import math
 
 class Tree3(LSystem):
-	"""Fractale en forme d'arbre, v1"""
+	"""Fractale en forme d'arbre, v3, avec facteur random"""
+	def __init__(self, turtle, modif_seg = 0, modif_angle = -math.pi / 16):
+		self.modif_seg = modif_seg
+		self.modif_angle = modif_angle
+		super(Tree3, self).__init__(turtle)
 
 	def defineParams(self):
 		self.LSName = "Tree 3"
-		self.LSAngle = math.pi / 8
-		self.LSSegment = 1
+		self.LSAngle = math.pi / 8 + self.modif_angle
+		self.LSSegment = 1 + self.modif_seg
 		self.LSSteps = 6
-		self.LSSartingString = "F"
-		self.LSStochastic = False
+		self.LSStartingString = "F"
+		self.LSStochastic = True
 
-		self.LSStochRange = 0.1
+		self.LSStochRange = 1
 
 	def createVars(self):
 		self.LSVars = {

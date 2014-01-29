@@ -3,13 +3,15 @@ import math
 
 class FirstTree(LSystem):
 	"""Fractale en forme d'arbre, v1"""
+	def __init__(self, turtle):
+		super(FirstTree, self).__init__(turtle)
 
 	def defineParams(self):
 		self.LSName = "First tree"
 		self.LSAngle = math.pi / 8
 		self.LSSegment = 1
-		self.LSSteps = 4
-		self.LSSartingString = "F"
+		self.LSSteps = 6
+		self.LSStartingString = "CF"
 
 	def createVars(self):
 		self.LSVars = {
@@ -22,7 +24,8 @@ class FirstTree(LSystem):
 			'>':	self.turtle.irotX,
 			'|':	self.turtle.rotX,
 			'[':	self.turtle.push,
-			']':	self.turtle.pop
+			']':	self.turtle.pop,
+			'C':	self.turtle.setColor
 
 		}
 		self.LSParams = {
@@ -35,11 +38,11 @@ class FirstTree(LSystem):
 			'>':	self.LSAngle,
 			'|':	self.LSAngle * 2,
 			'[':	None,
-			']':	None
+			']':	None,
+			'C':	(0, 0.5, 0)
 		}
 
 	def createRules(self):
 		self.LSRules = {
 			'F':	"F[-&<F][<++&F]||F[--&>F][+&F]"
 		}
-			
