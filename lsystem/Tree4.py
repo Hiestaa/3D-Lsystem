@@ -8,7 +8,7 @@ class Tree4(LSystem):
 		self.LSName = "Tree 4"
 		self.LSAngle = math.pi / 8
 		self.LSSegment = 0.01
-		self.LSSteps = 5
+		self.LSSteps = 10
 		self.LSStartingString = "X"
 		self.LSStochastic = False
 

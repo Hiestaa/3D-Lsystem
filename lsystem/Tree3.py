@@ -3,7 +3,7 @@ import math
 
 class Tree3(LSystem):
 	"""Fractale en forme d'arbre, v3, avec facteur random"""
-	def __init__(self, turtle, modif_seg = 0, modif_angle = -math.pi / 16):
+	def __init__(self, turtle, modif_seg = 0, modif_angle = 0):
 		self.modif_seg = modif_seg
 		self.modif_angle = modif_angle
 		super(Tree3, self).__init__(turtle)

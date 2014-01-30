@@ -4,14 +4,15 @@ import OpenGL.GL as gl
 
 class Tree2(LSystem):
 	"""Fractale en forme d'arbre, v2"""
-	def __init__(self, turtle):
+	def __init__(self, turtle, modif_angle = -math.pi / 32):
+		self.modif_angle = modif_angle;
 		super(Tree2, self).__init__(turtle)
 
 	def defineParams(self):
 		self.LSName = "Tree 2"
-		self.LSAngle = math.pi / 16
+		self.LSAngle = math.pi / 16 + self.modif_angle
 		self.LSSegment = 1
-		self.LSSteps = 4
+		self.LSSteps = 5
 		self.LSStartingString = "F"
 		self.LSStochastic = True
 

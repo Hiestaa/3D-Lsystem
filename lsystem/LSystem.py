@@ -127,7 +127,7 @@ class LSystem(object):
 
 		glCompileShader(vs)
 		log = glGetShaderInfoLog(vs)
-		if log: print 'Vertex Shader: ', log
+		# if log: print 'Vertex Shader: ', log
 
 		# glCompileShader(gs)
 		# log = glGetShaderInfoLog(gs)
@@ -135,7 +135,7 @@ class LSystem(object):
 
 		glCompileShader(fs)
 		log = glGetShaderInfoLog(fs)
-		if log: print 'Fragment Shader: ', log
+		# if log: print 'Fragment Shader: ', log
 
 		self.shader = glCreateProgram()
 

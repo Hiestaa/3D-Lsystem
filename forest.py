@@ -17,6 +17,9 @@ from func import *
 USED = [
 	lambda t: FirstTree.FirstTree(t),
 	lambda t: Tree2.Tree2(t),
+	lambda t: Tree2.Tree2(t, -math.pi / 32),
+	lambda t: Tree2.Tree2(t, -math.pi / 64),
+	lambda t: Tree2.Tree2(t, +math.pi / 12),
 	lambda t: Tree3.Tree3(t),
 	lambda t: Tree3.Tree3(t, 0, -math.pi / 16),
 	lambda t: Tree3.Tree3(t, 0, math.pi / 8),
