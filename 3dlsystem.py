@@ -97,11 +97,11 @@ class Main:
 		self.fractal.generate()
 		t_gen = time.time()
 		print "Generation time: ", (t_gen - t_init), 'sec'
+		print "OpenGL version:", glGetString(GL_VERSION)
 
 		self.fractal.runTurtleRun(stepbystep=('lsystem' in Conf.DEBUG and Conf.DEBUG['lsystem'] >= 1))
-		print "Turtule running time: ", (time.time() - t_gen), 'sec'
+		print "Turtle running time: ", (time.time() - t_gen), 'sec'
 		print "Total L-system creation time: ", (time.time() - t_init), 'sec'
-		#print "OpenGL version:", glGetIntegerv(GL_MAJOR_VERSION)
 
 
 		self.gx.setShader(self.fractal.getShader(), self.fractal.getUniforms())
