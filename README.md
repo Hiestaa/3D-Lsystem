@@ -12,7 +12,7 @@ The file "Génération de nature fractale.pdf" is the report of the project but 
 
 ## Simple fractal generator
 
-Usage: ./3dlsystem [fractal_name] [fractal_step:int] ['debug']
+Usage: `./3dlsystem [fractal_name] [fractal_step:int] ['debug']`
 where fractal_step is the precision of the fractal and fractal_name can be:
 * 'tree1': A first try for drawing a 3D tree
 * 'tree2': A second 3D tree, much betted, with nice colors
@@ -52,7 +52,7 @@ In debug mode :
 
 The purpose of this script is to generate a fractal forest using many different fractal trees.
 
-Usage: ./forest.py [size=S] [fractal=F] [random=R] [debug[=True|False]]
+Usage: `./forest.py [size=S] [fractal=F] [random=R] [debug[=True|False]]`
 where the parameters can be precised in any order, and means:
 * S: int >= 1 is the size of the forest.
 The fractal number will be set to S squared. Default value is 10
