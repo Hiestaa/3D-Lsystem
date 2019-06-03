@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <meta charset=utf-8>
+        <title>3D L-System Fractal Rendering</title>
+        <style>
+            body {
+                margin: 0;
+                height: 100%;
+                background-color: black;
+            }
+
+            div#controls {
+                color: white;
+                width: 100%;
+                position: fixed;
+                top: 0;
+                left: 0;
+                background: #1e1e1e;
+                border-bottom: 1px solid grey;
+                padding: 10px 25px;
+            }
+            div#controls .control {
+                display: inline-block;
+                width: 10vw;
+            }
+            div#controls button.control {
+                padding: 5px 0;
+            }
+            div#controls .control input,
+            div#controls .control select {
+                margin-top: 10px;
+            }
+            div#controls .line {
+                margin: 10px 0;
+            }
+            canvas {
+                width: 100%;
+                height: 100vh;
+            }
+            div.keybinds {
+                position: fixed;
+                left: 0;
+                bottom: 1rem;
+                cursor: pointer;
+            }
+            div.keybinds ul li {
+                list-style: none;
+                display: inline-block;
+                color: white;
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                font-size: 75%;
+            }
+            div.keybinds .keybind {
+                color: yellow;
+                font-weight: bold;
+                padding-right: 15px;
+            }
+            pre {
+                overflow: hidden;
+                position: fixed;
+                bottom: 0;
+                left: 0;
+                width: 100%;
+                background: black;
+                color: white;
+                height: 1rem;
+                margin: 0;
+                padding: 5px;
+                line-height: 17px;
+                cursor: pointer;
+            }
+            pre:hover {
+                height: 10rem;
+                overflow: auto;
+            }
+            pre.expanded {
+                overflow: auto;
+                height:  25rem;
+            }
+        </style>
+    </head>
+
+    <body>
+        <div id="controls">
+            <div class="line">
+                <div class="control">
+                    <label for="lsystem">L-System</label>
+                    <select id="lsystem"></select>
+                </div>
+                <div class="control">
+                    <label for="dna">Starting String (DNA)</label>
+                    <input type="text" id="dna">
+                </div>
+                <div class="control">
+                    <label for="steps" id="steps-label"">Number of steps: </label>
+                    <input type="range" min="3" max="30" id="steps" style="margin-top: 2px">
+                </div>
+                <div class="control">
+                    <label for="draw_type">Draw Type</label>
+                    <select id="draw_type">
+                        <option value="lines">lines</option>
+                        <option value="line_strip">line_strip</option>
+                        <option value="triangles">triangles</option>
+                        <option value="triangle_strip">triangle_strip</option>
+                    </select>
+                </div>
+                <div class="control">
+                    <label for="angle">Rotation Angle</label>
+                    <select id="angle"></select>
+                </div>
+                <div class="control">
+                    <label for="length">Segment Length</label>
+                    <input type="number" min="0.01" max="1" step="0.01" id="length">
+                </div>
+                <div class="control" style="width: auto">
+                    <label>Fractal Description: </label>
+                    <a href="" id="url" target="_blank"></a>
+                </div>
+            </div>
+            <div class="line">
+                <button class="control" id="generate">Generate</button>
+                <button class="control" id="draw">Draw</button>
+                <button class="control" id="animate">Animate</button>
+                <div class="control" style="width: auto">
+                    <input type="checkbox" id="async" />
+                    <label for="async">Async (avoid blocking main thread but slower)</label>
+                </div>
+            </div>
+        </div>
+        <div class="keybinds" id="keybinds">
+            <ul>
+                <li>Camera Zoom: <span class="keybind">MOUSE</span></li>
+                <li>Step: <span class="keybind">N/S</span></li>
+                <li>Toggle Autorun: <span class="keybind">R</span></li>
+                <li>Autorun Speed Up: <span class="keybind">+</span></li>
+                <li>Autorun Speed Down: <span class="keybind">-</span></li>
+            </ul>
+        </div>
+        <canvas id="canvas"></canvas>
+        <pre id="logs"></pre>
+        <!-- TODO: add a progress bar display here -->
+        <script src="lib/three.min.js"></script>
+        <script src="lib/stats.min.js"></script>
+        <script src="lib/WebGL.js"></script>
+        <script src="lib/TrackballControls.js"></script>
+        <script src="Logger.js"></script>
+        <script src="Turtle.js"></script>
+        <script src="LSystem.js"></script>
+        <script src="LSystemsManager.js"></script>
+        <script src="Graphx.js"></script>
+        <script src="main.js"></script>
+    </body>
+
+</html>
